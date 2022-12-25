@@ -1,78 +1,120 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 
-import "./form.css";
+import "./Form.css";
 
-export default class Form extends Component {
-  state = {
-    data: {
-      name: "",
-      surname: "",
-      phoneNumber: "",
-    },
-    // valid: false,
-  };
+function Form({ onAddElement, changeActivity }) {
+  const [contact, setContact] = useState({
+    name: "",
+    surname: "",
+    phoneNumber: "",
+  });
 
-  onInputChange = (e) => {
+  const [nameError, setNameError] = useState(" ");
+  const [surNameError, setSurNameError] = useState(" ");
+  const [phoneNumberError, setPhoneNumber] = useState(" ");
+
+  const [formValid, setFormValid] = useState(false);
+
+  useEffect(() => {
+    if (nameError || surNameError || phoneNumberError) {
+      setFormValid(false);
+      console.log(formValid);
+    } else {
+      setFormValid(true);
+      console.log(formValid);
+    }
+  }, [nameError, surNameError, phoneNumberError, formValid]);
+
+  const onInputChange = (e) => {
     const { value, name } = e.target;
 
-    this.setState({
-      data: {
-        ...this.state.data,
-        [name]: value,
-      },
-    });
+    setContact({ ...contact, [name]: value });
+    if (!value) {
+      switch (name) {
+        case "name":
+          setNameError("the name is not written!");
+          break;
+        case "surname":
+          setSurNameError("the surname is not written!");
+          break;
+        case "phoneNumber":
+          setPhoneNumber("the phone nimber is not written!");
+          break;
+        default:
+          break;
+      }
+    } else {
+      switch (name) {
+        case "name":
+          setNameError("");
+          break;
+        case "surname":
+          setSurNameError("");
+          break;
+        case "phoneNumber":
+          setPhoneNumber("");
+          break;
+        default:
+          break;
+      }
+    }
   };
 
-  onClick = (e) => {
+  const onClick = (e) => {
     e.preventDefault();
-    this.props.onAddElemnt(this.state.data);
-    this.props.changeActivity();
+    onAddElement(contact);
+    changeActivity();
   };
 
-  onCancel = (e) => {
+  const onCancel = (e) => {
     e.preventDefault();
-    this.props.changeActivity();
+    changeActivity();
   };
 
-  render() {
-    return (
-      <form className="form">
-        <div className="form-input">
-          <input
-            type="text"
-            placeholder="Name"
-            value={this.state.data.name}
-            onChange={this.onInputChange}
-            name="name"
-          />
-          <input
-            type="text"
-            placeholder="Surname"
-            value={this.state.data.surname}
-            onChange={this.onInputChange}
-            name="surname"
-          />
-          <input
-            type="text"
-            placeholder="Phone number"
-            value={this.state.data.phoneNumber}
-            onChange={this.onInputChange}
-            name="phoneNumber"
-          />
-        </div>
-        <div className="form-button">
-          <button
-            className="form-button_save"
-            onClick={this.onClick}
-            // disabled={!this.state.valid}
-          >
-            Save
-          </button>
-          <button className="form-button_cancel" onClick={this.onCancel}>
-            Cancel
-          </button>
-        </div>
-      </form>
-    );
-  }
+  return (
+    <form className="form">
+      <div className="form-input">
+        {nameError && <div className="form-error">{nameError}</div>}
+        <input
+          type="text"
+          placeholder="Name"
+          value={contact.name}
+          onChange={onInputChange}
+          name="name"
+        />
+        {surNameError && <div className="form-error">{surNameError}</div>}
+        <input
+          type="text"
+          placeholder="Surname"
+          value={contact.surname}
+          onChange={onInputChange}
+          name="surname"
+        />
+        {phoneNumberError && (
+          <div className="form-error">{phoneNumberError}</div>
+        )}
+        <input
+          type="text"
+          placeholder="Phone number"
+          value={contact.phoneNumber}
+          onChange={onInputChange}
+          name="phoneNumber"
+        />
+      </div>
+      <div className="form-button">
+        <button
+          className="form-button_save"
+          onClick={onClick}
+          disabled={!formValid}
+        >
+          Save
+        </button>
+        <button className="form-button_cancel" onClick={onCancel}>
+          Cancel
+        </button>
+      </div>
+    </form>
+  );
 }
+
+export default Form;

@@ -44,3 +44,7 @@
   background: rgb(255, 67, 67);
   color: aliceblue;
 }
+
+.form-error{
+  color: red;
+}
