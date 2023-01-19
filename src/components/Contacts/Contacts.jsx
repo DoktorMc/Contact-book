@@ -1,41 +1,18 @@
 import React, { useState } from "react";
+import useContacts from "../../hooks/useContacts";
 import ContactList from "../ContactList/ContactList";
 import Form from "../Form/Form";
 
 import "./Contacts.css";
 
 function Contacts() {
-  const [contacts, setContacts] = useState([
-    {
-      id: 1,
-      name: "Paul",
-      surname: "Anderson",
-      phoneNumber: "+380991231212",
-    },
-    {
-      id: 2,
-      name: "Marshal",
-      surname: "Maters",
-      phoneNumber: "+380991472525",
-    },
-    { id: 3, name: "Fred", surname: "Durst", phoneNumber: "+380974562323" },
-  ]);
-
   const [active, setActiv] = useState(false);
-
-  const addContact = (contact) => {
-    contact = { ...contact, id: Math.random() };
-    setContacts([...contacts, contact]);
-  };
-
-  const deleteContact = (id) => {
-    const newContacts = contacts.filter((contact) => contact.id !== id);
-    setContacts(newContacts);
-  };
 
   const onChangeActvivity = () => {
     setActiv(!active);
   };
+
+  const { contacts, addContact, deleteContact } = useContacts();
 
   return (
     <>
@@ -43,8 +20,9 @@ function Contacts() {
 
       <div className="app-header">
         <div>Name</div>
-        <div>Surname</div>
+        <div>User Name</div>
         <div>Phone number</div>
+        <div>E-mail</div>
       </div>
 
       <ContactList contacts={contacts} onDeleteItem={deleteContact} />

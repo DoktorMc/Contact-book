@@ -5,36 +5,42 @@ import "./Form.css";
 function Form({ onAddElement, changeActivity }) {
   const [contact, setContact] = useState({
     name: "",
-    surname: "",
-    phoneNumber: "",
+    username: "",
+    phone: "",
+    email:''
   });
 
   const [nameError, setNameError] = useState(" ");
-  const [surNameError, setSurNameError] = useState(" ");
+  const [userNameError, setUserNameError] = useState(" ");
   const [phoneNumberError, setPhoneNumberError] = useState(" ");
+  const [emailError, setEmailError] = useState(" ");
 
   const [formValid, setFormValid] = useState(false);
 
   useEffect(() => {
-    if (nameError || surNameError || phoneNumberError) {
+    if (nameError || userNameError || phoneNumberError || emailError) {
       setFormValid(false);
     } else {
       setFormValid(true);
     }
-  }, [nameError, surNameError, phoneNumberError, formValid]);
+  }, [nameError, userNameError, phoneNumberError,emailError, formValid]);
 
   const errorText = (name, empty) => {
     const errors = {
       name: (empty) =>
         !empty ? setNameError("the name is not written!") : setNameError(""),
-      surname: (empty) =>
+      username: (empty) =>
         !empty
-          ? setSurNameError("the surname is not written!")
-          : setSurNameError(""),
-      phoneNumber: (empty) =>
+          ? setUserNameError("the surname is not written!")
+          : setUserNameError(""),
+      phone: (empty) =>
         !empty
           ? setPhoneNumberError("the phone number is not written!")
           : setPhoneNumberError(""),
+      email: (empty) =>
+        !empty
+          ? setEmailError("the E-mail is not written!")
+          : setEmailError(""),
     };
 
     return errors[name]?.(empty);
@@ -68,13 +74,13 @@ function Form({ onAddElement, changeActivity }) {
           onChange={onInputChange}
           name="name"
         />
-        {surNameError && <div className="form-error">{surNameError}</div>}
+        {userNameError && <div className="form-error">{userNameError}</div>}
         <input
           type="text"
           placeholder="Surname"
-          value={contact.surname}
+          value={contact.username}
           onChange={onInputChange}
-          name="surname"
+          name="username"
         />
         {phoneNumberError && (
           <div className="form-error">{phoneNumberError}</div>
@@ -82,9 +88,19 @@ function Form({ onAddElement, changeActivity }) {
         <input
           type="text"
           placeholder="Phone number"
-          value={contact.phoneNumber}
+          value={contact.phone}
           onChange={onInputChange}
-          name="phoneNumber"
+          name="phone"
+        />
+        {emailError && (
+          <div className="form-error">{emailError}</div>
+        )}
+        <input
+          type="text"
+          placeholder="E-mail"
+          value={contact.email}
+          onChange={onInputChange}
+          name="email"
         />
       </div>
       <div className="form-button">
