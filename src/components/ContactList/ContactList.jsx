@@ -1,7 +1,10 @@
 import React from "react";
 import ContactItem from "../ContactItem/ContactItem";
+import { connect } from "react-redux";
+import { deleteContact } from "../../store/actions/contactsActions";
 
 import "./ContactList.css";
+
 
 function ContactList({ contacts, onDeleteItem }) {
   return (
@@ -13,4 +16,22 @@ function ContactList({ contacts, onDeleteItem }) {
   );
 }
 
-export default ContactList;
+function mapStateToProps ({contacts, search}) {
+  let items = contacts.contacts
+  console.log('to search', search);
+  if (search.length !== 0) {
+    let searchText = search.toLowerCase();
+    items = items.filter((el) => ~el.name.toLowerCase().indexOf(searchText));
+    console.log('to items', items);
+  }
+ 
+  return {
+    contacts: items
+  };
+}
+
+const mapDispatchToProps = {
+  onDeleteItem: deleteContact
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ContactList)

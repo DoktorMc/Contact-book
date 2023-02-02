@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from "react";
+import { addContact } from "../../store/actions/contactsActions";
+import { connect } from "react-redux";
 
 import "./Form.css";
+import { changeActivity } from "../../store/actions/activityActions";
 
-function Form({ onAddElement, changeActivity }) {
+function Form({ onAddElement, onChangeActivity }) {
   const [contact, setContact] = useState({
     name: "",
     username: "",
     phone: "",
-    email:''
+    email: "",
   });
 
   const [nameError, setNameError] = useState(" ");
@@ -23,7 +26,7 @@ function Form({ onAddElement, changeActivity }) {
     } else {
       setFormValid(true);
     }
-  }, [nameError, userNameError, phoneNumberError,emailError, formValid]);
+  }, [nameError, userNameError, phoneNumberError, emailError, formValid]);
 
   const errorText = (name, empty) => {
     const errors = {
@@ -55,12 +58,10 @@ function Form({ onAddElement, changeActivity }) {
   const onClick = (e) => {
     e.preventDefault();
     onAddElement(contact);
-    changeActivity();
   };
 
   const onCancel = (e) => {
     e.preventDefault();
-    changeActivity();
   };
 
   return (
@@ -92,9 +93,7 @@ function Form({ onAddElement, changeActivity }) {
           onChange={onInputChange}
           name="phone"
         />
-        {emailError && (
-          <div className="form-error">{emailError}</div>
-        )}
+        {emailError && <div className="form-error">{emailError}</div>}
         <input
           type="text"
           placeholder="E-mail"
@@ -111,12 +110,16 @@ function Form({ onAddElement, changeActivity }) {
         >
           Save
         </button>
-        <button className="form-button_cancel" onClick={onCancel}>
+        <button className="form-button_cancel" onClick={onChangeActivity}>
           Cancel
         </button>
       </div>
     </form>
   );
 }
+const mapDispatchToProps = {
+  onAddElement: addContact,
+  onChangeActivity: changeActivity
+};
 
-export default Form;
+export default connect(null, mapDispatchToProps)(Form);

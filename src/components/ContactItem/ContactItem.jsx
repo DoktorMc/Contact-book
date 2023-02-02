@@ -12,7 +12,7 @@ function ContactItem({ item, onDeleteItem }) {
   return (
     <div className="item-group">
       <div>{item.name}</div>
-      <div>{item.username}</div>
+      <div>{item.userName}</div>
       <div>{item.phone}</div>
       <div>{item.email}</div>
       <span className="item-group_delete" onClick={onClickDelete}>

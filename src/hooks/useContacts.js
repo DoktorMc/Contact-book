@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 export default function useContacts() {
   const [contacts, setContacts] = useState([]);
-  const url = "https://jsonplaceholder.typicode.com/users";
+  const url = "https://jsonplaceholder.typicode.com/users/";
 
   useEffect(() => {
     fetch(url)
@@ -23,7 +23,7 @@ export default function useContacts() {
   };
 
   const deleteContact = (id) => {
-    fetch(`${url}/${id}`, {
+    fetch(url+`${id}`, {
       method: "DELETE",
     });
     const newContacts = contacts.filter((contact) => contact.id !== id);
