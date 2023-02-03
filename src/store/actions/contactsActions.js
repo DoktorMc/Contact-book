@@ -3,6 +3,7 @@
 export const ACTION_ADD_CONTACTS = "ACTION_ADD_CONTACTS";
 export const ACTION_DELETE_CONTACTS = "ACTION_DELETE_CONTACTS";
 export const ACTION_SET_CONTACTS = "ACTION_SET_CONTACTS";
+export const START_CONTACT = "START_CONTACT";
 
 const CONTACTS_URL =
   "https://63dba03bb8e69785e486c5c1.mockapi.io/contacts/contacts/";
@@ -34,13 +35,13 @@ export const deleteContact = (id) => (dispatch) => {
   });
 };
 
-export const fetchContacts = () => (dispatch) =>{
-  fetch(CONTACTS_URL)
-    .then((resp) => resp.json())
-    .then((data) =>
-      dispatch({
-        type: ACTION_SET_CONTACTS,
-        payload: data
-      })
-    );
+export const fetchContacts = () =>{
+   fetch(CONTACTS_URL)
+    .then((resp) => resp.json()) 
+}
+
+
+
+export const startContact = () => {
+  return {type: START_CONTACT}
 }

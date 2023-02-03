@@ -1,8 +1,11 @@
 import { createStore, applyMiddleware} from "redux";
 import rootReducers from "./reducers";
-// import filerReducer from "./reducers/todosFilter";
 import { logger } from "redux-logger/src";
-import thunk from "redux-thunk";
+import createSagaMiddleware from "@redux-saga/core";
+import { composeWithDevTools } from "@redux-devtools/extension";
+import rootSaga from "./sagas";
+
+const sagaMiddleware = createSagaMiddleware();
 
 // convert object to string and store in localStorage
 function saveToLocalStorage(state) {
@@ -30,9 +33,14 @@ function loadFromLocalStorage() {
 const store = createStore(
   rootReducers,
   loadFromLocalStorage(),
-  applyMiddleware(thunk, logger),
+  composeWithDevTools(
+    applyMiddleware(sagaMiddleware, logger)
+    // other store enhancers if any
+  )
 );
 
 store.subscribe(() => saveToLocalStorage(store.getState()));
+
+sagaMiddleware.run(rootSaga);
 
 export default store;
