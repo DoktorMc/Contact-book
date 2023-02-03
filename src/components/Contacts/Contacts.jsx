@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import { connect } from "react-redux";
-import useContacts from "../../hooks/useContacts";
 import { changeActivity } from "../../store/actions/activityActions";
 import { searchContact } from "../../store/actions/searchAction";
 import ContactList from "../ContactList/ContactList";

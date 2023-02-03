@@ -18,11 +18,9 @@ function ContactList({ contacts, onDeleteItem }) {
 
 function mapStateToProps ({contacts, search}) {
   let items = contacts.contacts
-  console.log('to search', search);
   if (search.length !== 0) {
     let searchText = search.toLowerCase();
     items = items.filter((el) => ~el.name.toLowerCase().indexOf(searchText));
-    console.log('to items', items);
   }
  
   return {

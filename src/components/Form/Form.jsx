@@ -17,7 +17,6 @@ function Form({ onAddElement, onChangeActivity }) {
   const [userNameError, setUserNameError] = useState(" ");
   const [phoneNumberError, setPhoneNumberError] = useState(" ");
   const [emailError, setEmailError] = useState(" ");
-
   const [formValid, setFormValid] = useState(false);
 
   useEffect(() => {
@@ -58,10 +57,7 @@ function Form({ onAddElement, onChangeActivity }) {
   const onClick = (e) => {
     e.preventDefault();
     onAddElement(contact);
-  };
-
-  const onCancel = (e) => {
-    e.preventDefault();
+    onChangeActivity();
   };
 
   return (
